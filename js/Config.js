@@ -3,25 +3,24 @@ class Config {
         this.text = text
         this.size = size
         this.font = font
-        this.gravity = 0.1
-        this.fc = new FireworksConfig();
-        this.init()
     }
 
     init() {
-        let _that = this
+        this.fc = new FireworksConfig();
         this.points = this.textToPoints()
         this.fireworks = [];
         this.titleParticles = []
         this.particles = []
-        setTimeout(function () {
-            setInterval(function () {
-                _that.fireworks.push(_that.Firework(Math.random() * width, height, Math.random() - 0.5, -(Math.random() * 7 + 5)));
+        this.gravity = 0.1
+
+        setTimeout(() => {
+            setInterval(() => {
+                this.fireworks.push(this.Firework(Math.random() * width, height, Math.random() - 0.5, -(Math.random() * 7 + 5)));
             }, 1000);
         }, 2000);
-        this.fireworks.push(_that.Firework(width / 2, height, 0, -9.5, 10, "gold", true));
-        setInterval(function () {
-            _that.fireworks.push(_that.Firework(width / 2, height, 0, -9.5, 10, "gold", true));
+        this.fireworks.push(this.Firework(width / 2, height, 0, -9.5, 10, "gold", true));
+        setInterval(() => {
+            this.fireworks.push(this.Firework(width / 2, height, 0, -9.5, 10, "gold", true));
         }, 5000);
 
         for (let i = 0; i < 250; i++) {
@@ -34,10 +33,9 @@ class Config {
         }
 
         this.fc.background("black");
-        this.loop();
     }
 
-    loop() {
+    run() {
         this.fc.ctx.globalCompositeOperation = "source-over";
         this.fc.background("rgba(0, 0, 0, 0.1)");
         this.fc.ctx.drawImage(this.fc.canvasToImage(), 0, 0);
@@ -60,19 +58,19 @@ class Config {
             p.render();
         }
 
-        requestAnimationFrame(this.loop.bind(this));
+        requestAnimationFrame(this.run.bind(this));
     }
 
     Firework(x, y, vx, vy, radius = 5, color = "white", title = false) {
         let _that = this
         let data = {
-            x: x,
-            y: y,
-            vx: vx,
-            vy: vy,
-            radius: radius,
-            title: title,
-            color: color,
+            x,
+            y,
+            vx,
+            vy,
+            radius,
+            title,
+            color,
             update: function () {
                 this.x += this.vx;
                 this.y += this.vy;
@@ -114,10 +112,10 @@ class Config {
     TitleParticle(x, y, vx, vy) {
         let _that = this
         let data = {
-            x: x,
-            y: y,
-            vx: vx,
-            vy: vy,
+            x,
+            y,
+            vx,
+            vy,
             ay: 0.2,
             radius: 4,
             maxHealth: 200,

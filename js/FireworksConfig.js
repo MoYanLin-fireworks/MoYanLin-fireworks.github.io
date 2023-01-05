@@ -41,23 +41,6 @@ class FireworksConfig {
                 return true;
             });
 
-            //Touch
-
-            this.updateTouches = function () {
-                let br = this.canvas.getBoundingClientRect();
-
-                this.touches = [];
-                for (let i = 0; i < event.touches.length; i++) {
-                    var e = event.touches[i];
-                    var x = (e.pageX - br.left) / (br.width / this.width);
-                    var y = (e.pageY - br.top) / (br.height / this.height);
-                    this.touches[i] = { x, y, id: e.identifier, force: e.force };
-                }
-
-                if (this.globalFunctions)
-                    window.touches = this.touches;
-            }
-
             this.canvas.addEventListener("touchmove", event => {
                 if (this.disableScrollOnMobile)
                     event.preventDefault();
@@ -75,6 +58,21 @@ class FireworksConfig {
         let canvas = document.createElement("canvas");
         document.body.appendChild(canvas);
         return canvas;
+    }
+
+    updateTouches() {
+        let br = this.canvas.getBoundingClientRect();
+
+        this.touches = [];
+        for (let i = 0; i < event.touches.length; i++) {
+            var e = event.touches[i];
+            var x = (e.pageX - br.left) / (br.width / this.width);
+            var y = (e.pageY - br.top) / (br.height / this.height);
+            this.touches[i] = { x, y, id: e.identifier, force: e.force };
+        }
+
+        if (this.globalFunctions)
+            window.touches = this.touches;
     }
 
     fillPageWithCanvas() {
